@@ -1,55 +1,53 @@
-let i = 0;
 
 
-
-function game() {
-   while (i <= 4) {
-
-    let randomWord = Math.floor(Math.random() * 3);
-    let computerSelection = getComputerChoice(randomWord);
-    let playerSelection = prompt("Rock, Paper, Scissors?");
+    const container = document.querySelector('div');
+    const rockButton = document.getElementById('rock');
+    const paperButton = document.getElementById('paper');
+    const scissorsButton = document.getElementById('scissors');
   
-    function getComputerChoice(randomWord){
-        if(randomWord === 0) {
-            return 'Rock';
-        } else if(randomWord === 1) {
-            return 'Paper';
-        } else {
-            return 'Scissors';
-        }
-    } 
-
-    console.log(playerSelection);
-    console.log(computerSelection); 
+        rockButton.addEventListener('click', () => playRound('rock'));
+        paperButton.addEventListener('click', () => playRound('paper'));
+        scissorsButton.addEventListener('click', () => playRound('scissors'));
 
     
-    function playRound(playerSelection, computerSelection) {
-        if (playerSelection.toUpperCase() === computerSelection.toUpperCase()){
-            result = "Tie!! Replay the round.";
-        }
-          else {
-                switch(playerSelection.toUpperCase()){
-                    case 'ROCK':
-                        result = (computerSelection === 'Scissors') ? "You win!" : "You Lose!";
-                        i++;
+    function playRound(playerSelection) {
+        let randomWord = Math.floor(Math.random() * 3);
+        let computerSelection = getComputerChoice(randomWord);  
+
+        function getComputerChoice(randomWord){
+            if(randomWord === 0) {
+                return 'rock';
+            } else if(randomWord === 1) {
+                return 'paper';
+            } else {
+                return 'scissors';
+            }
+        }; 
+        console.log(playerSelection);
+        console.log(computerSelection); 
+        const roundResult = document.createElement('p');
+       
+        if (playerSelection === computerSelection){
+            roundResult.textContent = "Tie!! Replay the round.";
+        } else {
+                switch(playerSelection){
+                    case 'rock':
+                        roundResult.textContent = (computerSelection === 'scissors') ? "You win!" : "You Lose!";
                         break;
-                    case 'PAPER': 
-                        result = (computerSelection === 'Rock') ? "You win!" : "You Lose!";
-                        i++;
+                    case 'paper': 
+                        roundResult.textContent = (computerSelection === 'rock') ? "You win!" : "You Lose!";
                         break;
-                    case 'SCISSORS': 
-                        result = (computerSelection === 'Paper') ? "You win!" : "You Lose!";
-                        i++;
+                    case 'scissors': 
+                        roundResult.textContent = (computerSelection === 'paper') ? "You win!" : "You Lose!";
                         break;
                 }
-            }
-            return result;
-          }
-          console.log(playRound(playerSelection, computerSelection));
-        
-    }
+            } 
+            container.appendChild(roundResult);
+          };
 
-}
+         
+        
+
 
 
 
