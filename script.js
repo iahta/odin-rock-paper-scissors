@@ -1,9 +1,14 @@
 
-
+    let computerScore = 0;
+    let playerScore = 0;
+    let roundsPlayed = 0; 
     const container = document.querySelector('div');
     const rockButton = document.getElementById('rock');
     const paperButton = document.getElementById('paper');
     const scissorsButton = document.getElementById('scissors');
+    const playerChoice = document.getElementById('player-pick');
+    const gameScorePlayer = document.getElementById('player-score');
+    const gameScoreComputer = document.getElementById('computer-score');
   
         rockButton.addEventListener('click', () => playRound('rock'));
         paperButton.addEventListener('click', () => playRound('paper'));
@@ -23,9 +28,15 @@
                 return 'scissors';
             }
         }; 
+        console.log(playerScore);
+        console.log(computerScore);
         console.log(playerSelection);
         console.log(computerSelection); 
-        const roundResult = document.createElement('p');
+        
+        const computerChoice = document.getElementById('computer-pick');
+        const roundResult = document.getElementById('round-result');
+        playerChoice.textContent = "Player Pick: " + playerSelection.toUpperCase();
+        computerChoice.textContent = "Computer Pick: " + computerSelection.toUpperCase();
        
         if (playerSelection === computerSelection){
             roundResult.textContent = "Tie!! Replay the round.";
@@ -42,8 +53,26 @@
                         break;
                 }
             } 
-            container.appendChild(roundResult);
-          };
+          //add the score updates to the round results, add rounds to played 
+          //to play round function.  
+            function processResult(roundResult) {
+                while (roundsPlayed < 4) {
+                    if (roundResult = "You Win!"){; 
+                    playerScore++;
+                    roundsPlayed++;
+                    break;
+                }else if (roundResult = "You Lose!") {
+                    computerScore++;
+                    roundsPlayed++; 
+                    break;
+                }
+                }
+                gameScorePlayer.textContent = playerScore;
+                gameScoreComputer.textContent = computerScore;
+            }
+        };
+
+        
 
          
         
