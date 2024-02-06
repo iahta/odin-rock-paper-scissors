@@ -9,6 +9,7 @@
     const playerChoice = document.getElementById('player-pick');
     const gameScorePlayer = document.getElementById('player-score');
     const gameScoreComputer = document.getElementById('computer-score');
+    const roundResult = document.getElementById('round-result'); 
   
         rockButton.addEventListener('click', () => playRound('rock'));
         paperButton.addEventListener('click', () => playRound('paper'));
@@ -34,54 +35,78 @@
         console.log(computerSelection); 
         
         const computerChoice = document.getElementById('computer-pick');
-        const roundResult = document.getElementById('round-result');
         playerChoice.textContent = "Player Pick: " + playerSelection.toUpperCase();
         computerChoice.textContent = "Computer Pick: " + computerSelection.toUpperCase();
        
-        if (playerSelection === computerSelection){
-            roundResult.textContent = "Tie!! Replay the round.";
-        } else {
-                switch(playerSelection){
-                    case 'rock':
-                        roundResult.textContent = (computerSelection === 'scissors') ? "You win!" : "You Lose!";
-                        break;
-                    case 'paper': 
-                        roundResult.textContent = (computerSelection === 'rock') ? "You win!" : "You Lose!";
-                        break;
-                    case 'scissors': 
-                        roundResult.textContent = (computerSelection === 'paper') ? "You win!" : "You Lose!";
-                        break;
-                }
-            } 
-          //add the score updates to the round results, add rounds to played 
-          //to play round function.  
-            function processResult(roundResult) {
-                while (roundsPlayed < 4) {
-                    if (roundResult = "You Win!"){; 
-                    playerScore++;
-                    roundsPlayed++;
-                    break;
-                }else if (roundResult = "You Lose!") {
-                    computerScore++;
-                    roundsPlayed++; 
-                    break;
-                }
-                }
-                gameScorePlayer.textContent = playerScore;
-                gameScoreComputer.textContent = computerScore;
+        if (playerSelection === computerSelection) {
+            roundWinner = 'tie'
+        } 
+            else if (
+            (playerSelection === 'rock' && computerSelection === 'scissors') ||
+             (playerSelection === 'paper' && computerSelection === 'rock') || 
+             (playerSelection === 'scissors' && computerSelection === 'paper')) 
+             {
+             roundWinner = 'player'
             }
+            else if (
+            (computerSelection === 'rock' && playerSelection === 'scissors') ||
+            (computerSelection === 'paper' && playerSelection === 'rock') || 
+            (computerSelection === 'scissors' && playerSelection === 'paper'))
+            {
+             roundWinner = 'computer'
+            }
+            processResult(roundWinner);
         };
 
         
+        function processResult(roundWinner) {
+                if (roundWinner === 'tie') {
+                    roundResult.textContent = "Tie!! Replay the round.";
+            }
+            else if (roundWinner === 'player') {
+                playerScore++;
+                roundsPlayed++;
+                roundResult.textContent = "You Win!";
+        } else {
+        (roundWinner === 'computer') 
+                    computerScore++;
+                    roundsPlayed++;
+                    roundResult.textContent = "You Lose!";
+       }
+       gameScorePlayer.textContent = "Player Score " + playerScore;
+       gameScoreComputer.textContent = "Computer Score " + computerScore;
+       gameScore(playerScore, computerScore);
+    };
 
-         
+    function gameScore(playerScore, computerScore) {
+        if (playerScore === 5) {
+            roundResult.textContent = "Game Over! You Won!";
+        } else if (computerScore === 5) {
+            roundResult.textContent = "Game Over! You Lost!";
+        }
+    };
+
+
+            //add the score updates to the round results, add rounds to played 
+          //to play round function.  
+     
+
         
-
-
-
-
-
-
+//else {
+               // switch(playerSelection){
+                //    case 'rock':     
+                //        roundResult.textContent = (computerSelection === 'scissors') ? "You win!" : "You Lose!";
+                //        break;
+                //    case 'paper': 
+                //        roundResult.textContent = (computerSelection === 'rock') ? "You win!" : "You Lose!";
+                //        break;
+                //    case 'scissors': 
+               //         roundResult.textContent = (computerSelection === 'paper') ? "You win!" : "You Lose!";
+                //        break;
+                //}
+            //} 
+        //};
+         
 /*let randomWord = Math.floor(Math.random() * 3);
 let computerSelection = getComputerChoice(randomWord);
 let playerSelection = prompt("Rock, Paper, Scissors?");
@@ -139,5 +164,5 @@ you lose ""
 
 1 = Rock
 2 = Sissors 
-3 = Paper 
+3 = Paper
 */
