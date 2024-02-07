@@ -1,7 +1,6 @@
 
     let computerScore = 0;
     let playerScore = 0;
-    let roundsPlayed = 0; 
     const container = document.querySelector('div');
     const rockButton = document.getElementById('rock');
     const paperButton = document.getElementById('paper');
@@ -10,6 +9,8 @@
     const gameScorePlayer = document.getElementById('player-score');
     const gameScoreComputer = document.getElementById('computer-score');
     const roundResult = document.getElementById('round-result'); 
+    const playerButtons = document.getElementById('player-buttons');
+  
   
         rockButton.addEventListener('click', () => playRound('rock'));
         paperButton.addEventListener('click', () => playRound('paper'));
@@ -65,17 +66,16 @@
             }
             else if (roundWinner === 'player') {
                 playerScore++;
-                roundsPlayed++;
                 roundResult.textContent = "You Win!";
         } else {
         (roundWinner === 'computer') 
                     computerScore++;
-                    roundsPlayed++;
                     roundResult.textContent = "You Lose!";
        }
        gameScorePlayer.textContent = "Player Score " + playerScore;
        gameScoreComputer.textContent = "Computer Score " + computerScore;
        gameScore(playerScore, computerScore);
+       isgameOver(playerScore, computerScore);
     };
 
     function gameScore(playerScore, computerScore) {
@@ -86,12 +86,32 @@
         }
     };
 
+    function isgameOver(playerScore, computerScore) {
+            if (playerScore === 5 || computerScore === 5) {
+                rockButton.style.display = 'none'; 
+                paperButton.style.display = 'none';
+                scissorsButton.style.display = 'none';
+                const resetButton = document.createElement('button');
+                playerButtons.appendChild(resetButton); 
+                resetButton.textContent ='Reset Game';
+                resetButton.addEventListener('click', () => resetRound(resetButton));
+            }
+             
+    };
 
-            //add the score updates to the round results, add rounds to played 
-          //to play round function.  
-     
+    function resetRound(resetButton){
+        playerScore = 0;
+        computerScore = 0; 
+        gameScorePlayer.textContent = "Player Score " + playerScore;
+        gameScoreComputer.textContent = "Computer Score " + computerScore;
+        rockButton.style.display = 'initial'; 
+        paperButton.style.display = 'initial';
+        scissorsButton.style.display = 'initial';
+        playerButtons.removeChild(resetButton);
 
-        
+    }
+ 
+             
 //else {
                // switch(playerSelection){
                 //    case 'rock':     
